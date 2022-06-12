@@ -62,3 +62,27 @@ function fun6() {
 var nestedClosure1 = fun6();
 var nestedClosure2 = nestedClosure1();
 nestedClosure2();
+
+//functional statement it is hoisted that means it can be called before the defination
+
+fun7();
+function fun7() {
+  console.log("This is a functional Statement");
+}
+
+//functional expression is not hoisted and it cant be called before defination, it will give refrence error
+
+var n = function () {
+  console.log("this is a functional expression");
+};
+n();
+
+//anonymous function
+let o = function () {};
+//named functional expression
+
+var p = function fun8() {
+  console.log("this is a named functional expression");
+};
+p();
+//a(); will give error
