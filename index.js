@@ -86,3 +86,67 @@ var p = function fun8() {
 };
 p();
 //a(); will give error
+
+//higher order function
+
+const radius = [3, 1, 2, 4];
+const area = function (radius) {
+  return Math.PI * radius * radius;
+};
+const calculate = function (radius, logic) {
+  const output = [];
+  for (let i in radius) {
+    output.push(logic(radius[i]));
+  }
+  return output;
+};
+console.log(calculate(radius, area));
+
+//map, filter reduce
+
+const arr = [5, 1, 3, 2, 6];
+const output1 = arr.map(double);
+function double(x) {
+  return x * 2;
+}
+console.log(output1);
+
+const output2 = arr.reduce((acc, curr) => {
+  acc = acc + curr;
+  return acc;
+});
+console.log(output2);
+
+const output3 = arr.filter(odd);
+function odd(x) {
+  return x % 2 !== 0;
+}
+console.log(output3);
+//call, apply, bind
+
+let name1 = {
+  fName: "Aman",
+  lname: "Raj",
+};
+function printName(hometown, age) {
+  console.log(
+    this.fName + " ",
+    this.lname + " is " + age + " years old " + "from " + hometown
+  );
+}
+let name2 = {
+  fName: "Aman1",
+  lname: "Raj1",
+};
+// this is also called function borrowing as we can botrrow function form other objects, it avoids duplication of code.
+printName.call(name1, "Odisha", "24");
+printName.call(name2, "Odisha", "24");
+
+// only difference from call to apply method is the way of passing arguements in apply its passed as an array.
+printName.apply(name1, ["Odisha", "24"]);
+
+// its also works as a call method but instead of calling the function it returns the copy of that methnod binded with that passed object reference.
+const bindedMethod = printName.bind(name1, "Odisha", "24");
+bindedMethod();
+
+//polyfill for bind (very important)
