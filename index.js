@@ -194,3 +194,44 @@ let multiply2 = function (x) {
 
 let multiplyBySix = multiply2(6);
 multiplyBySix(6);
+
+//debouncing optimimization concept
+const getData = function () {
+  console.log("Debouncing: Expensive task");
+};
+const debounce = function (fn, d) {
+  let timer;
+  return function () {
+    let context = this,
+      args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, d);
+  };
+};
+
+const debounceFunction = debounce(getData, 300);
+
+// throttling optimization concept.
+
+const expensiveFunction = () => {
+  console.log("Throttling: Expensive Task");
+};
+const betterExpensiveFunction = throttle(expensiveFunction, limit);
+window.addEventListener("resize", betterExpensiveFunction);
+
+const throttle = function (func, limit) {
+  let flag = true;
+  return function () {
+    let context = this,
+      args = arguments;
+    if (flag) {
+      func.apply(context, args);
+      flag = false;
+      setTimeout(() => {
+        flag = true;
+      }, limit);
+    }
+  };
+};
