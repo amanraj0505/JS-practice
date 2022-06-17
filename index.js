@@ -150,3 +150,47 @@ const bindedMethod = printName.bind(name1, "Odisha", "24");
 bindedMethod();
 
 //polyfill for bind (very important)
+let name3 = {
+  fname: "Aman",
+  lname: "Raj",
+};
+let printFullname = function (arg1) {
+  console.log(
+    "Pollyfill (bind): " + this.fname + " " + this.lname + " " + arg1
+  );
+};
+let normalBind = printFullname.bind(name3);
+normalBind("hiiiiii");
+
+Function.prototype.myBind = function (...args) {
+  let obj = this;
+  let params = args.slice(1);
+  return function (...arg1) {
+    obj.apply(args[0], [...params, ...arg1]);
+  };
+};
+
+let printFullname2 = printFullname.myBind(name3);
+printFullname2("hiiiii");
+
+// Function Currying
+// There are 2 methods (1) Using Bind (2) Using Closure
+
+//using Bind
+let multiply = function (x, y) {
+  console.log(x * y);
+};
+let multiplyByTwo = multiply.bind(this, 2);
+multiplyByTwo(3);
+let multiplyByFour = multiply.bind(this, 4);
+multiplyByFour(4);
+
+//using closure
+let multiply2 = function (x) {
+  return function (y) {
+    console.log(x * y);
+  };
+};
+
+let multiplyBySix = multiply2(6);
+multiplyBySix(6);
