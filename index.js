@@ -218,8 +218,6 @@ const debounceFunction = debounce(getData, 300);
 const expensiveFunction = () => {
   console.log("Throttling: Expensive Task");
 };
-const betterExpensiveFunction = throttle(expensiveFunction, limit);
-window.addEventListener("resize", betterExpensiveFunction);
 
 const throttle = function (func, limit) {
   let flag = true;
@@ -235,3 +233,47 @@ const throttle = function (func, limit) {
     }
   };
 };
+
+const betterExpensiveFunction = throttle(expensiveFunction, 1000);
+window.addEventListener("resize", betterExpensiveFunction);
+
+//nested object traversing using resursion; (important intertview question)
+
+var nestedObj = {
+  info: {
+    name: "Aman Raj",
+    address: {
+      personal: {
+        city: "RRPR",
+        area: "Anladuba",
+      },
+      office: {
+        city: "Bangalore",
+        area: {
+          landmark: "Sarjapur Road",
+        },
+      },
+    },
+  },
+};
+let finalObject = {};
+let traverse = (nestedObj, parent) => {
+  for (let key in nestedObj) {
+    if (typeof nestedObj[key] === "object") {
+      traverse(nestedObj[key], parent + "_" + key);
+    } else {
+      finalObject[parent + "_" + key] = nestedObj[key];
+    }
+  }
+};
+traverse(nestedObj, "user");
+console.log(finalObject);
+
+// sum(1)(2)(3).......(n)
+var sum = function (a) {
+  return function (b) {
+    if (b) return sum(a + b);
+    else return a;
+  };
+};
+console.log(sum(1)(2)(3)());
