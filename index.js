@@ -3,20 +3,21 @@ var a = 3;
 let b = 4;
 const c = 5;
 console.log(window.a, window.b, window.c);
-// let const hoistd somewhere else then window, script memory space
+// let const hoisted somewhere else then window, script memory space
 console.log(window);
 
-//scope chanin
+//scope chain
 function fun1() {
   console.log(e);
 }
+fun1(); // var is hoisted but used before assigned so pe=rints undefined
 var e = 10;
-fun1();
+fun1(); // prints 10 as its used after proper assignment.
 // scope chain 2
 function fun2() {
   fun3();
   function fun3() {
-    console.log(f);
+    console.log(f); // scope chain searches f in its local memory then its parent's lexical enviroment and so on until it finds it.
   }
 }
 var f = 11;
@@ -38,7 +39,7 @@ var j = 15;
 // var to let shadowing is legal but let to var is illegal as
 //shadowing shouldn't cross the boundry of scope
 
-//Closures
+//Closures- function binded with its lexical scope together forms closures.
 
 function fun4() {
   var k = 17;
@@ -85,7 +86,7 @@ var p = function fun8() {
   console.log("this is a named functional expression");
 };
 p();
-//a(); will give error
+//fun8(); will give error the function here is p() due to the functional expression
 
 //higher order function
 
@@ -100,7 +101,7 @@ const calculate = function (radius, logic) {
   }
   return output;
 };
-console.log(calculate(radius, area));
+console.log("Area:", calculate(radius, area));
 
 //map, filter reduce
 
@@ -109,19 +110,20 @@ const output1 = arr.map(double);
 function double(x) {
   return x * 2;
 }
-console.log(output1);
+console.log("Map:", output1);
 
 const output2 = arr.reduce((acc, curr) => {
   acc = acc + curr;
   return acc;
 });
-console.log(output2);
+console.log("Reduce: ", output2);
 
 const output3 = arr.filter(odd);
 function odd(x) {
   return x % 2 !== 0;
 }
 console.log(output3);
+
 //call, apply, bind
 
 let name1 = {
@@ -185,6 +187,11 @@ multiplyByTwo(3);
 let multiplyByFour = multiply.bind(this, 4);
 multiplyByFour(4);
 
+let add = function (x, y, z) {
+  console.log(x + y + z);
+};
+let addplus2 = add.bind(this, 2);
+addplus2(2, 3);
 //using closure
 let multiply2 = function (x) {
   return function (y) {
@@ -194,7 +201,7 @@ let multiply2 = function (x) {
 
 let multiplyBySix = multiply2(6);
 multiplyBySix(6);
-
+multiply2(6)(6);
 //debouncing optimimization concept
 const getData = function () {
   console.log("Debouncing: Expensive task");
@@ -210,7 +217,6 @@ const debounce = function (fn, d) {
     }, d);
   };
 };
-
 const debounceFunction = debounce(getData, 300);
 
 // throttling optimization concept.
