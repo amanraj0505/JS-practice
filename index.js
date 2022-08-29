@@ -10,7 +10,7 @@ console.log(window);
 function fun1() {
   console.log(e);
 }
-fun1(); // var is hoisted but used before assigned so pe=rints undefined
+fun1(); // var is hoisted but used before assigned so prints undefined
 var e = 10;
 fun1(); // prints 10 as its used after proper assignment.
 // scope chain 2
