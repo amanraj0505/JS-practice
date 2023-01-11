@@ -140,7 +140,7 @@ let name2 = {
   fName: "Aman1",
   lname: "Raj1",
 };
-// this is also called function borrowing as we can botrrow function form other objects, it avoids duplication of code.
+// this is also called function borrowing as we can borrow function from other objects, it avoids duplication of code.
 printName.call(name1, "Odisha", "24");
 printName.call(name2, "Odisha", "24");
 
@@ -206,15 +206,13 @@ multiply2(6)(6);
 const getData = function () {
   console.log("Debouncing: Expensive task");
 };
-const debounce = function (fn, d) {
-  let timer;
-  return function () {
-    let context = this,
-      args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn.apply(context, args);
-    }, d);
+const debounce = function (cb, delay) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      cb(...args);
+    }, delay);
   };
 };
 const debounceFunction = debounce(getData, 300);
@@ -225,18 +223,20 @@ const expensiveFunction = () => {
   console.log("Throttling: Expensive Task");
 };
 
-const throttle = function (func, limit) {
-  let flag = true;
-  return function () {
-    let context = this,
-      args = arguments;
-    if (flag) {
-      func.apply(context, args);
-      flag = false;
-      setTimeout(() => {
-        flag = true;
-      }, limit);
+const throttle = function (cb, delay) {
+  let shouldWait = false;
+
+  // if should wait is true return from here dont call anything
+  return function (...args) {
+    if (shouldWait) {
+      return;
     }
+    //  otherwise call the function and set should wait to true and make it false after the time expires so that its always returned from the top.
+    cb(...args);
+    shouldWait = true;
+    setTimeout(() => {
+      shouldWait = false;
+    }, delay);
   };
 };
 
